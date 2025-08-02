@@ -43,10 +43,10 @@ public class DriveSubsystem extends SubsystemBase {
     StructPublisher<Pose2d> m_publisher;
 
     // TODO: Insert your drive motors and differential drive here...
-    private final SparkMax m_leftLeader;
-    private final SparkMax m_leftFollower;
-    private final SparkMax m_rightLeader;
-    private final SparkMax m_rightFollower;
+    public final SparkMax m_leftLeader;
+    public final SparkMax m_leftFollower;
+    public final SparkMax m_rightLeader;
+    public final SparkMax m_rightFollower;
     private final DifferentialDrive m_drive;
     /** Creates a new DriveSubsystem. */
     public DriveSubsystem() {
@@ -65,26 +65,26 @@ public class DriveSubsystem extends SubsystemBase {
         m_publisher = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose2d.struct).publish();
 
         // TODO: Instantiate motors & differential drive, then configure motors here...
-        m_leftLeader = new SparkMax(DriveConstants.kLeftLeaderMotorPort, MotorType k.Brushless);
-        m_leftFollower = new SparkMax(DriveConstants.kLeftFollowerMotorPort, MotorType k.Brushless);
-        m_rightLeader = new SparkMax(DriveConstants.kRightLeaderMotorPort, MotorType k.Brushless);
-        m_rightFollower = new SparkMax(DriveConstants.kRightFollowerMotorPort, MotorType k.Brushless);
+        m_leftLeader = new SparkMax(DriveConstants.kLeftLeaderCANId, MotorType k.Brushless);
+        m_leftFollower = new SparkMax(DriveConstants.kLeftFollowerCANId, MotorType k.Brushless);
+        m_rightLeader = new SparkMax(DriveConstants.kRightLeaderCANId, MotorType k.Brushless);
+        m_rightFollower = new SparkMax(DriveConstants.kRightFollowerCANId, MotorType k.Brushless);
 
-        SparkMaxConfig globalConfig = new SparkMaxConfig();
-        SparkMaxConfig leftLeaderConfig = new SparkMaxConfig();
-        SparkMaxConfig leftFollowerConfig = new SparkMaxConfig();
-        SparkMaxConfig rightLeaderConfig = new SparkMaxConfig();
-        SparkMaxConfig rightFollowerConfig = new SparkMaxConfig();
+        SparkMaxConfig m_globalConfig = new SparkMaxConfig();
+        SparkMaxConfig m_leftLeaderConfig = new SparkMaxConfig();
+        SparkMaxConfig m_leftFollowerConfig = new SparkMaxConfig();
+        SparkMaxConfig m_rightLeaderConfig = new SparkMaxConfig();
+        SparkMaxConfig m_rightFollowerConfig = new SparkMaxConfig();
 
-        globalConfig.idleMode(IdleMode.kBrake);
-        globalConfig.smartCurrentLimit(40);
-        leftLeaderConfig.apply(globalConfig);
-        leftFollowerConfig.apply(globalConfig);
-        leftFollowerConfig.follow(m_leftLeader);
-        rightLeaderConfig.apply(globalConfig);
-        rightLeaderConfig.inverted(true);
-        rightFollowerConfig.apply(globalConfig);
-        rightFollowerConfig.follow(m_rightLeader);
+        m_globalConfig.idleMode(IdleMode.kBrake);
+        m_globalConfig.smartCurrentLimit(50);
+        m_leftLeaderConfig.apply(globalConfig);
+        m_leftFollowerConfig.apply(globalConfig);
+        m_leftFollowerConfig.follow(m_leftLeader);
+        m_rightLeaderConfig.apply(globalConfig);
+        m_rightLeaderConfig.inverted(true);
+        m_rightFollowerConfig.apply(globalConfig);
+        m_rightFollowerConfig.follow(m_rightLeader);
         
         m_leftLeader.configure(leftLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         m_leftFollower.configure(leftFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -98,8 +98,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     // TODO: Insert your arcadeDrive method here...
-    public void arcadeDrive(double forward, double turn) {
-        m.drive(forward, turn);
+    public void arcadeDrive(double forward, double rotation) {
+        m_drive.arcadeDrive(forward, rotation);
     }
     @Override
     public void periodic() {
