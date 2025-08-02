@@ -53,6 +53,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // TODO: Insert your default command here...
+    m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, m_driverController));
   }
 
   /**
