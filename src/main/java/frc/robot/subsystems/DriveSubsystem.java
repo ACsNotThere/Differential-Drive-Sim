@@ -43,7 +43,11 @@ public class DriveSubsystem extends SubsystemBase {
     StructPublisher<Pose2d> m_publisher;
 
     // TODO: Insert your drive motors and differential drive here...
-
+    private final SparkMax m_leftLeader;
+    private final SparkMax m_leftFollower;
+    private final SparkMax m_rightLeader;
+    private final SparkMax m_rightFollower;
+    private final DifferentialDrive m_drive;
     /** Creates a new DriveSubsystem. */
     public DriveSubsystem() {
 
@@ -61,13 +65,42 @@ public class DriveSubsystem extends SubsystemBase {
         m_publisher = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose2d.struct).publish();
 
         // TODO: Instantiate motors & differential drive, then configure motors here...
+        m_leftLeader = new SparkMax(DriveConstants.kLeftLeaderMotorPort, MotorType k.Brushless);
+        m_leftFollower = new SparkMax(DriveConstants.kLeftFollowerMotorPort, MotorType k.Brushless);
+        m_rightLeader = new SparkMax(DriveConstants.kRightLeaderMotorPort, MotorType k.Brushless);
+        m_rightFollower = new SparkMax(DriveConstants.kRightFollowerMotorPort, MotorType k.Brushless);
 
+        SparkMaxConfig globalConfig = new SparkMaxConfig();
+        SparkMaxConfig leftLeaderConfig = new SparkMaxConfig();
+        SparkMaxConfig leftFollowerConfig = new SparkMaxConfig();
+        SparkMaxConfig rightLeaderConfig = new SparkMaxConfig();
+        SparkMaxConfig rightFollowerConfig = new SparkMaxConfig();
+
+        globalConfig.idleMode(IdleMode.kBrake);
+        globalConfig.smartCurrentLimit(40);
+        leftLeaderConfig.apply(globalConfig);
+        leftFollowerConfig.apply(globalConfig);
+        leftFollowerConfig.follow(m_leftLeader);
+        rightLeaderConfig.apply(globalConfig);
+        rightLeaderConfig.inverted(true);
+        rightFollowerConfig.apply(globalConfig);
+        rightFollowerConfig.follow(m_rightLeader);
+        
+        m_leftLeader.configure(leftLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_leftFollower.configure(leftFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_rightLeader.configure(rightLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_rightFollower.configure(rightFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
+        
         m_leftMotorSim = new SparkMaxSim(m_leftLeaderMotor, DCMotor.getNEO(2));
         m_rightMotorSim = new SparkMaxSim(m_rightLeaderMotor, DCMotor.getNEO(2));
     }
 
     // TODO: Insert your arcadeDrive method here...
-
+    public void arcadeDrive(double forward, double turn) {
+        m.drive(forward, turn);
+    }
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
