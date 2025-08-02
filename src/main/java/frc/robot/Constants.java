@@ -23,5 +23,9 @@ public final class Constants {
 
   // TODO: Insert DriveConstants here...
   public static class DriveConstants {
+    public static final int kLeftLeaderCANId = 0;
+    public static final int kLeftFollowerCANId = 1;
+    public static final int kRightLeaderCANId = 2;
+    public static final int kRightFollowerCANId = 3;
   }
 }
