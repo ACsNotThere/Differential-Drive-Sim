@@ -23,6 +23,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   // TODO: Initialize your DriveSubsystem here...
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController = new CommandXboxController(
