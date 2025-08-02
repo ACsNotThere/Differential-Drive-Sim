@@ -19,8 +19,8 @@ public class ArcadeDriveCommand extends Command {
   // TODO: Insert your consutrctor parameters
   public ArcadeDriveCommand(DriveSubsystem drive, CommandXboxController controller) {
     // TODO: Insert your constructor code here...
-    m_drive = drive;
-    m_controller = controller;
+    this.m_drive = drive;
+    this.m_controller = controller;
     addRequirements(m_drive);
   }
 
@@ -33,7 +33,7 @@ public class ArcadeDriveCommand extends Command {
   @Override
   public void execute() {
     // TODO: Insert your command code here...
-    m_drive.arcadeDrive(-m_controller.getLeftY(), -m_controller.getRightX());
+    m_drive.arcadeDrive(m_controller.getLeftY(), m_controller.getRightX());
   }
 
   // Called once the command ends or is interrupted.
