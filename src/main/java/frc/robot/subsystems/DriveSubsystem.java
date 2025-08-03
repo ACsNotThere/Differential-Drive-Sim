@@ -65,10 +65,10 @@ public class DriveSubsystem extends SubsystemBase {
         m_publisher = NetworkTableInstance.getDefault().getStructTopic("MyPose", Pose2d.struct).publish();
 
         // TODO: Instantiate motors & differential drive, then configure motors here...
-        m_leftLeader = new SparkMax(DriveConstants.kLeftLeaderCANId, MotorType k.Brushless);
-        m_leftFollower = new SparkMax(DriveConstants.kLeftFollowerCANId, MotorType k.Brushless);
-        m_rightLeader = new SparkMax(DriveConstants.kRightLeaderCANId, MotorType k.Brushless);
-        m_rightFollower = new SparkMax(DriveConstants.kRightFollowerCANId, MotorType k.Brushless);
+        m_leftLeader = new SparkMax(DriveConstants.kLeftLeaderCANId, MotorType.kBrushless);
+        m_leftFollower = new SparkMax(DriveConstants.kLeftFollowerCANId, MotorType.kBrushless);
+        m_rightLeader = new SparkMax(DriveConstants.kRightLeaderCANId, MotorType.kBrushless);
+        m_rightFollower = new SparkMax(DriveConstants.kRightFollowerCANId, MotorType.kBrushless);
 
         SparkMaxConfig m_globalConfig = new SparkMaxConfig();
         SparkMaxConfig m_leftLeaderConfig = new SparkMaxConfig();
@@ -111,11 +111,11 @@ public class DriveSubsystem extends SubsystemBase {
         m_driveSim.update(0.02);
 
         m_leftMotorSim.iterate(
-                (((kNEOMaxRPM * m_leftLeaderMotor.get()) / kDrivetrainGearRatio) * Math.PI
+                (((kNEOMaxRPM * m_leftLeader.get()) / kDrivetrainGearRatio) * Math.PI
                         * kWheelDiameterInches) / 60,
                 RoboRioSim.getVInVoltage(), 0.02);
         m_rightMotorSim.iterate(
-                (((kNEOMaxRPM * m_rightLeaderMotor.get()) / kDrivetrainGearRatio) * Math.PI
+                (((kNEOMaxRPM * m_rightLeader.get()) / kDrivetrainGearRatio) * Math.PI
                         * kWheelDiameterInches) / 60,
                 RoboRioSim.getVInVoltage(), 0.02);
 
