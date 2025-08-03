@@ -78,23 +78,23 @@ public class DriveSubsystem extends SubsystemBase {
 
         m_globalConfig.idleMode(IdleMode.kBrake);
         m_globalConfig.smartCurrentLimit(50);
-        m_leftLeaderConfig.apply(globalConfig);
-        m_leftFollowerConfig.apply(globalConfig);
+        m_leftLeaderConfig.apply(m_globalConfig);
+        m_leftFollowerConfig.apply(m_globalConfig);
         m_leftFollowerConfig.follow(m_leftLeader);
-        m_rightLeaderConfig.apply(globalConfig);
+        m_rightLeaderConfig.apply(m_globalConfig);
         m_rightLeaderConfig.inverted(true);
-        m_rightFollowerConfig.apply(globalConfig);
+        m_rightFollowerConfig.apply(m_globalConfig);
         m_rightFollowerConfig.follow(m_rightLeader);
         
-        m_leftLeader.configure(leftLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        m_leftFollower.configure(leftFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        m_rightLeader.configure(rightLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        m_rightFollower.configure(rightFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_leftLeader.configure(m_leftLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_leftFollower.configure(m_leftFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_rightLeader.configure(m_rightLeaderConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        m_rightFollower.configure(m_rightFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         m_drive = new DifferentialDrive(m_leftLeader, m_rightLeader);
         
-        m_leftMotorSim = new SparkMaxSim(m_leftLeaderMotor, DCMotor.getNEO(2));
-        m_rightMotorSim = new SparkMaxSim(m_rightLeaderMotor, DCMotor.getNEO(2));
+        m_leftMotorSim = new SparkMaxSim(m_leftLeader, DCMotor.getNEO(2));
+        m_rightMotorSim = new SparkMaxSim(m_rightLeader, DCMotor.getNEO(2));
     }
 
     // TODO: Insert your arcadeDrive method here...
@@ -122,8 +122,8 @@ public class DriveSubsystem extends SubsystemBase {
         m_leftMotorSim.setBusVoltage(RoboRioSim.getVInVoltage());
         m_rightMotorSim.setBusVoltage(RoboRioSim.getVInVoltage());
 
-        m_leftMotorSim.setAppliedOutput(m_leftLeaderMotor.getAppliedOutput());
-        m_rightMotorSim.setAppliedOutput(m_rightLeaderMotor.getAppliedOutput());
+        m_leftMotorSim.setAppliedOutput(m_leftLeader.getAppliedOutput());
+        m_rightMotorSim.setAppliedOutput(m_rightLeader.getAppliedOutput());
 
         m_driveSim.setInputs(m_leftMotorSim.getAppliedOutput() * m_leftMotorSim.getBusVoltage(),
                 m_rightMotorSim.getAppliedOutput() * m_rightMotorSim.getBusVoltage());
