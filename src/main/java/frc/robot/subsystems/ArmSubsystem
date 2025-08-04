@@ -57,6 +57,7 @@ public class ArmSubsystem extends SubsystemBase {
   private final PositionVoltage posRequest;
   private final VelocityVoltage vRequest;
   private final StatusSignal<Angle> posSignal;
+  private final StatusSignal<Angle> absPosSignal;
   private final StatusSignal<AngularVelocity> vSignal;
   private final StatusSignal<Voltage> voltageSignal;
   private final StatusSignal<Current> statorCurrentSignal;
@@ -76,6 +77,7 @@ public class ArmSubsystem extends SubsystemBase {
     posRequest = new PositionVoltage(0).withSlot(0);
     vRequest = new VelocityVoltage(0).withSlot(0);
     posSignal = motor.getPosition();
+    absPosSignal = absoluteEncoder.getAbsolutePosition();
     vSignal = motor.getVelocity();
     voltageSignal = motor.getMotorVoltage();
     statorCurrentSignal = motor.getStatorCurrent();
@@ -105,7 +107,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     motor.getConfigurator().apply(krakenConfig);
     // Initialize motor position to 0
-    motor.setPosition((Angle) absoluteEncoder.getAbsolutePosition());
+    motor.setPosition(getAbsolutePositionDouble());
     
     // Initialize the arm simulation
     armSim = new SingleJointedArmSim(
@@ -165,6 +167,10 @@ public class ArmSubsystem extends SubsystemBase {
   // Method to get current position of the arm (in rotations)
   public double getPosition() {
     return posSignal.getValueAsDouble();
+  }
+  // Gets absolute position in rotations
+  public double getAbsolutePositionDouble() {
+    return absPosSignal.getValueAsDouble();
   }
 
 
