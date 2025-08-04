@@ -33,9 +33,9 @@ public final class Constants {
     public final static int canIDCanCoder = 11;
     public final static int krakenCanID = 12;
     public final static double gearRatio = 25; //25:1 gear ratio
-    public final static double kP = 10;
-    public final static double kI = 0;
-    public final static double kD = 0;
+    public final static double kP = 100;
+    public final static double kI = 2;
+    public final static double kD = 1;
     public final static double maxVelocity = 1; // rad/s
     public final static double maxAcceleration = 1; // rad/s²
     public final static boolean brakeMode = true;
