@@ -70,6 +70,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     m_driveSubsystem.setDefaultCommand(new ArcadeDriveCommand(m_driveSubsystem, m_driverController));
+    // Arm rotations
     m_driverController.a().onTrue(m_armSubsystem.setAngleCommand(0));    // A button to 0°
     m_driverController.b().onTrue(m_armSubsystem.setAngleCommand(45));   // B button to 45°
     m_driverController.x().onTrue(m_armSubsystem.setAngleCommand(90));   // X button to 90°
