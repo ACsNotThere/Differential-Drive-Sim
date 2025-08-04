@@ -28,8 +28,10 @@ public final class Constants {
     public static final int kRightLeaderCANId = 2;
     public static final int kRightFollowerCANId = 3;
   }
+  // Arm Constants
   public static class ArmConstants {
-    public final static int canID = 12;
+    public final static int canIDCanCoder = 11;
+    public final static int krakenCanID = 12;
     public final static double gearRatio = 25; //25:1 gear ratio
     public final static double kP = 10;
     public final static double kI = 0;
